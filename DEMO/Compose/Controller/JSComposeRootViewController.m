@@ -7,7 +7,6 @@
 //
 
 #import "JSComposeRootViewController.h"
-#import "JSComposeToolBar.h"
 #import "JSEmoticonKeyboardView.h"
 #import "JSEmoticonModel.h"
 #import "JSEmoticonTool.h"
@@ -19,8 +18,6 @@ extern CGFloat itemSize;
 
 @interface JSComposeRootViewController ()
 
-// 底部ToolBar
-@property (nonatomic) JSComposeToolBar *composeToolBar;
 // 自定义表情键盘
 @property (nonatomic) JSEmoticonKeyboardView *keyboardView;
 
@@ -33,19 +30,8 @@ extern CGFloat itemSize;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.view addSubview:self.keyboardView];
+    [self keyboardView];
 
-}
-
-
-- (JSComposeToolBar *)composeToolBar {
-    
-    if (_composeToolBar == nil) {
-        _composeToolBar = [[JSComposeToolBar alloc] init];
-        
-        
-    }
-    return _composeToolBar;
 }
 
 - (JSEmoticonKeyboardView *)keyboardView {
@@ -54,6 +40,8 @@ extern CGFloat itemSize;
         _keyboardView = [[JSEmoticonKeyboardView alloc] init];
         _keyboardView.frame = CGRectMake(0, 20, SCREEN_WIDTH, kKeyboardViewHeigth);
         _keyboardView.backgroundColor = [[UIColor orangeColor] colorWithAlphaComponent:0.5];
+        [self.view addSubview:self.keyboardView];
+
     }
     return _keyboardView;
 }

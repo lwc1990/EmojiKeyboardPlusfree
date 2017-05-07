@@ -25,6 +25,14 @@ NSInteger maxEmoticonCounts;             // 表情键盘每页最大数
 @property (nonatomic,strong) NSArray <JSEmoticonModel *>*defalut;
 
 
+// emoji表情          (一维数组)
+@property (nonatomic,strong) NSArray <JSEmoticonModel *>*emoji2;
+// langxiaohua表情    (一维数组)
+@property (nonatomic,strong) NSArray <JSEmoticonModel *>*langxiaohua2;
+// default表情        (一维数组)
+@property (nonatomic,strong) NSArray <JSEmoticonModel *>*defalut2;
+
+
 
 @end
 
@@ -154,13 +162,45 @@ NSInteger maxEmoticonCounts;             // 表情键盘每页最大数
     return _langxiaohua;
 }
 
+
+
+
+- (NSArray<JSEmoticonModel *> *)defalut2 {
+    
+    if (_defalut2 == nil) {
+        _defalut2 = [self getEmoticonsWithFileName:@"default2"];
+    }
+    return _defalut2;
+}
+
+- (NSArray<JSEmoticonModel *> *)emoji2 {
+    
+    if (_emoji2 == nil) {
+        _emoji2 = [self getEmoticonsWithFileName:@"emoji2"];
+    }
+    return _emoji2;
+}
+
+- (NSArray<JSEmoticonModel *> *)langxiaohua2 {
+    
+    if (_langxiaohua2 == nil) {
+        _langxiaohua2 = [self getEmoticonsWithFileName:@"lxh2"];
+    }
+    return _langxiaohua2;
+}
+
+
 - (NSArray < NSArray <NSArray <JSEmoticonModel *>*> * > *)allEmoticons {
     
     if (_allEmoticons == nil) {
         _allEmoticons = @[
                        [self getEmoticonGroupWithEmoticons:self.defalut],
                        [self getEmoticonGroupWithEmoticons:self.emoji],
-                       [self getEmoticonGroupWithEmoticons:self.langxiaohua]
+                       [self getEmoticonGroupWithEmoticons:self.langxiaohua],
+                       
+                       [self getEmoticonGroupWithEmoticons:self.defalut2],
+                       [self getEmoticonGroupWithEmoticons:self.emoji2],
+                       [self getEmoticonGroupWithEmoticons:self.langxiaohua2]
                        ];
     }
     return _allEmoticons;
