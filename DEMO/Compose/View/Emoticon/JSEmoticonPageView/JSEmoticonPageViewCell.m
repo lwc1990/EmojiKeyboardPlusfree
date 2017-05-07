@@ -19,30 +19,49 @@ extern CGFloat const kEmoticonPageViewHorizontalMargin;   // 表情键盘左右�
 extern CGFloat const kEmoticonPageViewBottomMargin;       // 表情键盘表情区域底部间距
 
 @interface EmotionCell:UICollectionViewCell
-@property(nonatomic,strong)UILabel* label;
+@property(nonatomic,strong)UIButton* button;
 @property(nonatomic,strong)JSEmoticonModel* emoji;
 
 @end;
 
 @implementation EmotionCell
 
-- (void)setEmoji:(JSEmoticonModel *)emoji{
-    NSString *emojiEmoticon = [emoji.code emoji];
-    self.label.text = emojiEmoticon;
+- (void)setEmoji:(JSEmoticonModel *)emoticonModel{
+    _emoji = emoticonModel;
+ 
+    if (emoticonModel.isEmoji) {
+        // emoji表情
+        NSString *emojiEmoticon = [emoticonModel.code emoji];
+        [self.button setTitle:emojiEmoticon forState:UIControlStateNormal];
+        [self.button setImage:nil forState:UIControlStateNormal];
+
+    } else {
+
+        // 拼接Bundle下的完整路径
+        NSString *fileFullPath = [NSString stringWithFormat:@"%@/%@",emoticonModel.path,emoticonModel.png];
+        // 从Emoticons.bundle中加载图片
+        UIImage *image = [UIImage imageNamed:fileFullPath inBundle:[JSEmoticonTool shared].emoticonsBundle compatibleWithTraitCollection:nil];
+        // 图片表情
+        [self.button setTitle:nil forState:UIControlStateNormal];
+        [self.button setImage:image forState:UIControlStateNormal];
+        
+    }
+    
+    
 }
 
 
+- (UIButton *)button{
+    if(!_button){
+        _button = [UIButton buttonWithType:UIButtonTypeCustom];
+        _button.titleLabel.textAlignment = NSTextAlignmentCenter;
+        [self.contentView addSubview:_button];
 
-- (UILabel *)label{
-    if(!_label){
-        _label = [UILabel new];
-        _label.textAlignment = NSTextAlignmentCenter;
-        [self.contentView addSubview:_label];
-        [_label mas_makeConstraints:^(MASConstraintMaker *make) {
+        [_button mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.equalTo(self.contentView);
         }];
     }
-    return _label;
+    return _button;
 }
 
 
